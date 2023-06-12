@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up and Leaderboard</title>
+    <style>
+        /* CSS styles for layout and appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form id="signup-form">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="transport" placeholder="Transport (Scooter/Bike/Walk)" required>
+            <input type="number" id="distance" step="0.1" placeholder="Distance (in kilometers)" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h1>Leaderboard</h1>
+        <table id="leaderboard">
+            <tr>
+                <th>Name</th>
+                <th>Total Points</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // JavaScript code for handling form submission and updating the leaderboard
+        document.getElementById('signup-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get form input values
+            var name = document.getElementById('name').value;
+            var transport = document.getElementById('transport').value;
+            var distance = parseFloat(document.getElementById('distance').value);
+
+            // Calculate points based on transport type
+            var points = 0;
+            if (transport.toLowerCase() === 'scooter') {
+                points = distance * 10;
+            } else if (transport.toLowerCase() === 'bike') {
+                points = distance * 15;
+            } else if (transport.toLowerCase() === 'walk') {
+                points = distance * 30;
+            }
+
+            // Create new leaderboard row
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = '<td>' + name + '</td><td>' + points + '</td>';
+
+            // Append new row to leaderboard table
+            var leaderboard = document.getElementById('leaderboard');
+            leaderboard.appendChild(newRow);
+
+            // Sort leaderboard based on points (descending order)
+            var rows = leaderboard.getElementsByTagName('tr');
+            var sortedRows = Array.from(rows).slice(1); // Exclude table header row
+            sortedRows.sort(function (a, b) {
+                var aPoints = parseInt(a.cells[1].textContent);
+               
