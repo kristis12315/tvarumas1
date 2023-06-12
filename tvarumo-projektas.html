@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School Transportation Program</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>School Transportation Program</h1>
+
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="transport">Transport:</label>
+        <select id="transport">
+            <option value="bike">Bike</option>
+            <option value="scooter">Scooter</option>
+            <option value="walk">Walk</option>
+        </select>
+        <br>
+        <label for="distance">Distance (in kilometers):</label>
+        <input type="number" id="distance" step="0.1" required>
+        <br>
+        <button type="button" onclick="addEntry()">Add Entry</button>
+    </form>
+
+    <h2>Leaderboard</h2>
+
+    <table id="leaderboard">
+        <tr>
+            <th>Rank</th>
+            <th>Participant</th>
+            <th>Points</th>
+            <th>Bike (km)</th>
+            <th>Scooter (km)</th>
+            <th>Walk (km)</th>
+        </tr>
+    </table>
+
+    <script>
+        function addEntry() {
+            var name = document.getElementById("name").value;
+            var transport = document.getElementById("transport").value;
+            var distance = parseFloat(document.getElementById("distance").value);
+
+            var leaderboard = document.getElementById("leaderboard");
+            var rowCount = leaderboard.rows.length;
+            var points, bikeDistance, scooterDistance, walkDistance;
+
+            if (transport === "bike") {
+                points = distance * 15;
+                bikeDistance = distance;
+                scooterDistance = 0;
+                walkDistance = 0;
+            } else if (transport === "scooter") {
+                points = distance * 10;
+                bikeDistance = 0;
+                scooterDistance = distance;
+                walkDistance = 0;
+            } else {
+                points = distance * 30;
+                bikeDistance = 0;
+                scooterDistance = 0;
+                walkDistance = distance;
+            }
+
+            var row = leaderboard.insertRow(rowCount);
+            row.insertCell(0).textContent = rowCount;
+            row.insertCell(1).textContent = name;
+            row.insertCell(2).textContent = Math.round(points);
+            row.insertCell(3).textContent = bikeDistance;
+            row.insertCell(4).textContent = scooterDistance;
+            row.insertCell(5).textContent = walkDistance;
+        }
+    </script>
+</body>
+</html>
